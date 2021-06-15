@@ -30,7 +30,8 @@ void SetLogMessageHook(int bdAntiCheatResponses, const char* logMessage, int log
 	switch (latestTitle) 
 	{
 	case 0x415608C3: // Black ops 2
-		if (logMessage == 0 || logMessageSize == 0) {
+		if (logMessage == 0 || logMessageSize == 0) 
+		{
 			Native::Write4Byte(bdAntiCheatResponses + 0x60, 0);
 			memset((PVOID)(bdAntiCheatResponses + 0x1E), 0, 0x40);
 			return;
@@ -148,7 +149,8 @@ bool LiveAntiCheat_GetChallengeResponseHook(int controllerIndex, int challengeTy
 			return true;
 		}
 
-		switch (challengeType) {
+		switch (challengeType) 
+		{
 			case FUNC_ID_CHECKSUM_CRC32_SPLIT: 
 			{
 				seed = Native::Read8Byte(Native::Read4Byte(Native::Read4Byte((DWORD)params) + 4));
@@ -211,7 +213,8 @@ bool LiveAntiCheat_GetChallengeResponseHook(int controllerIndex, int challengeTy
 			case 0xC8: 
 			{
 
-				if (Native::Read4Byte(((DWORD)params) + 8) != FUNC_ID_CHECKSUM_CRC32) {
+				if (Native::Read4Byte(((DWORD)params) + 8) != FUNC_ID_CHECKSUM_CRC32)
+				{
 					LOG_DEV("[AW] LiveAntiCheat_GetChallengeResponse invalid parameter!");
 					return true; // we do this because this is what the game does as well...
 				}
@@ -300,7 +303,8 @@ bool LiveAntiCheat_GetChallengeResponseGhostsHook(int memoryHashStructure)
 
 	switch (challengeType) 
 	{
-		case 0xC8: {
+		case 0xC8: 
+			{
 			if (memoryHashInfo) 
 			{
 				if (Native::Read4Byte(memoryHashInfo + 0x0C) != 0 || Native::Read8Byte(memoryHashInfo + 0x20) != (short)0x00003039 || Native::Read4Byte(memoryHashInfo) != 1) 
@@ -379,13 +383,15 @@ bool MemoryHashInfoContinueHook(int memoryHashInfo)
 	packetBO3Challenge->bMultiplayer = AntiCheat::bMultiplayer;
 
 	// packetBO3Challenge is deallocated in func
-	if (!Requests::PacketBO3Challenge(packetBO3Challenge, packetBO3ChallengeResponse)) {
+	if (!Requests::PacketBO3Challenge(packetBO3Challenge, packetBO3ChallengeResponse)) 
+	{
 		LOG_PRINT(StrEnc("Failed #c4fabd43"));
 		Utils::LaunchDashboard();
 		return false;
 	}
 
-	if (packetBO3ChallengeResponse->Status != Response::BO3_PACKET_SUCCESS) {
+	if (packetBO3ChallengeResponse->Status != Response::BO3_PACKET_SUCCESS) 
+	{
 		LOG_PRINT(StrEnc("Failed #c4fabd44"));
 		Utils::LaunchDashboard();
 		return false;
