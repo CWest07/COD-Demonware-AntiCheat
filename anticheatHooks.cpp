@@ -145,7 +145,8 @@ bool LiveAntiCheat_GetChallengeResponseHook(int controllerIndex, int challengeTy
 	case 0x415608C3: // Black ops 2
 		if (challengeType > 7 || Native::Read4Byte(Native::Read4Byte((DWORD)params) + 8) == 0) 
 		{
-			LOG_DEV("[BO2 AntiCheat] LiveAntiCheat_GetChallengeResponse invalid challenge parameter with type: 0x%08X!", challengeType);
+			// The game does this as well, possibly to catch static responses and wacky attempts at bypasses
+			LOG_DEV("[BO2 AntiCheat] LiveAntiCheat_GetChallengeResponse challenge parameter with type: 0x%08X!", challengeType);
 			return true;
 		}
 
