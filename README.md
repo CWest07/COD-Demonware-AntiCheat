@@ -36,3 +36,34 @@ int XexGetModuleHandleHook(PSZ moduleName, PHANDLE hand)
     return XexGetModuleHandle(moduleName, hand);
 }
 ```
+
+CRC32 algorithm: 
+```private static uint crc32(uint crc, byte[] buf, uint index, uint length) 
+        {
+            uint crc_0 = crc & 0xFFFFFFFF;
+            for (uint x = index; x < index + length; x++)
+            {
+                crc_0 = crc32_tab[((crc_0 & 0xFF) ^ buf[x]) & 0xFF] ^ (crc_0 >> 8);
+            }
+            return crc_0;
+        }
+
+        private static uint CalculateHash(uint crc, byte[] data, uint StartIndex, uint DataLen, uint dwDoSize) 
+        {
+            uint crc_0 = crc;
+            uint dwSize = DataLen;
+            while (true) 
+            {
+                uint position = (uint)data.Length - dwSize;
+                if (StartIndex != 0)
+                    position = (DataLen - dwSize) + StartIndex;
+                if (dwSize == 0)
+                    break;
+                if (dwSize < dwDoSize)
+                    dwDoSize = dwSize;
+                crc_0 = crc32(crc_0, data, position, dwDoSize);
+                dwSize -= dwDoSize;
+            }
+            return crc_0;
+        }
+```
