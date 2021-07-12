@@ -37,7 +37,7 @@ int XexGetModuleHandleHook(PSZ moduleName, PHANDLE hand)
 }
 ```
 
-CRC32 algorithm: 
+Ghosts/Advanced Warfare/Black Ops III CRC32 algorithm: 
 ```
 private static uint crc32(uint crc, byte[] buf, uint index, uint length) 
 {
@@ -66,5 +66,22 @@ private static uint CalculateHash(uint crc, byte[] data, uint StartIndex, uint D
         dwSize -= dwDoSize;
     }
     return crc_0;
+}
+```
+Black Ops II CRC32 algorithm: 
+```
+private static ulong crc32(ulong crc, byte[] buf, uint index, uint length, uint base_addr)
+{
+  uint num1 = (uint)crc;
+  uint num2 = (uint)(crc >> 32);
+  for (uint index1 = index; index1 < index + length; ++index1)
+  {
+    if ((base_addr + index1 & 16) > 0)
+      num2 = BO2_CRC32_TABLE[(num2 & 0xFF ^ buf[index1]) & 0xFF] ^ num2 >> 8;
+    else
+      num1 = BO2_CRC32_TABLE[(num1 & 0xFF ^ buf[index1]) & 0xFF] ^ num1 >> 8;
+  }
+
+  return num2 << 32 | num1;
 }
 ```
